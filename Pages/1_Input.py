@@ -5,8 +5,7 @@ import yfinance as yf
 c1, c2= st.columns([3,1], vertical_alignment="bottom")
 with c1:
     st.title("Stock Portfolio Risk Evaluation")
-with c2:
-    st.page_link("Pages/2_Stock Charts.py", label="Go to Stock Charts →")
+
 
 st.markdown("***Enter Stock tickers and their value in your portfolio***")
 
@@ -31,7 +30,18 @@ rows = []
 def remove_stock(index):
         st.session_state.portfolio = st.session_state.portfolio.drop(index).reset_index(drop=True)
 
-
+#----- To validate tickers
+def is_valid(ticker, value):
+    try:
+        stock = yf.Ticker(ticker)
+        info = stock.info
+        if "symbol" in info and info["symbol"] == ticker and value > 0:
+            return True
+        else:
+            return False
+    except Exception as e:
+        return False
+    
 # Create columns for buttons
 for index, _ in st.session_state.portfolio.iterrows():
     col1, col2, col3 = st.columns([2, 1, 0.5], vertical_alignment="bottom")
@@ -43,6 +53,7 @@ for index, _ in st.session_state.portfolio.iterrows():
             key=f"ticker_{index}"
         )
         st.session_state.portfolio.at[index, 'Ticker'] = ticker
+
 
     with col2:
         value = st.number_input(
@@ -60,12 +71,29 @@ for index, _ in st.session_state.portfolio.iterrows():
                 remove_stock(index)
                 st.rerun()
 
+
+
 st.session_state.portfolio = pd.DataFrame(st.session_state.portfolio)
 
-    
-col1, col2 = st.columns([1, 3])
+disable = True
+col1, col2, col3, col4 = st.columns([1,1,1,2])
 with col1:
     add_stock_button = st.button("Add Another Stock", on_click=add_stock)
+with col2:
+     p = st.session_state.portfolio
+     ticker_input = p["Ticker"]
+     values = p["Value"]
+     if st.button("Validate"):
+        if not ticker_input.empty and not values.empty:
+            for index,row in p.iterrows():
+                ticker = row["Ticker"]
+                value = row["Value"]
+                if is_valid(ticker, value):  # Convert to uppercase for consistency
+                    st.success(f"{ticker} is valid")
+                    disable = False
+                else:
+                    st.error(f"{ticker} is not valid! Check ticker spelling and value")
 
-
+with col3:
+     st.page_link("Pages/2_Stock Charts.py", label="Go to Stock Charts →", disabled=disable)
 
