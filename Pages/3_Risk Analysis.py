@@ -6,6 +6,11 @@ import plotly.express as px
 import plotly.graph_objects as go
 from scipy.stats import norm
 
+#To prevent access from sidebar before inputting values
+if st.session_state.disable:
+    st.info('Please enter your input on the Home page and try again.')
+    st.stop()
+
 c1, c2 = st.columns([4,1], vertical_alignment="bottom")
 c1.title("Risk Analysis")
 c2.page_link("Pages/4_Optimal Portfolio.py", label="Optimise Portfolio →")
