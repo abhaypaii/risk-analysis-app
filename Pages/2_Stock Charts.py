@@ -5,6 +5,11 @@ import pandas as pd
 from datetime import date
 import plotly.graph_objects as go
 
+#To prevent access from sidebar before inputting values
+if st.session_state.disable:
+    st.info('Please enter your input on the Home page and try again.')
+    st.stop()
+
 # ----- SETTING UP LOCAL VARIABLES -----
 portfolio = st.session_state.portfolio
 weights_dict = {}
