@@ -5,6 +5,11 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import plotly.graph_objects as go
 
+#To prevent access from sidebar before inputting values
+if st.session_state.disable:
+    st.info('Please enter your input on the Home page and try again.')
+    st.stop()
+
 st.title("Optimal Portfolio Allocation")
 
 st.write("This is a scatterplot of 3000 scenarios with randomised weights of each asset to determine the optimal portfolio distribution")
