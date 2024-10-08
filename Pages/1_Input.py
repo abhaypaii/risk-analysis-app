@@ -75,7 +75,7 @@ for index, _ in st.session_state.portfolio.iterrows():
 
 st.session_state.portfolio = pd.DataFrame(st.session_state.portfolio)
 
-disable = True
+st.session_state.disable = True
 col1, col2, col3, col4 = st.columns([1,1,1,2])
 with col1:
     add_stock_button = st.button("Add Another Stock", on_click=add_stock)
@@ -90,10 +90,10 @@ with col2:
                 value = row["Value"]
                 if is_valid(ticker, value):  # Convert to uppercase for consistency
                     st.success(f"{ticker} is valid")
-                    disable = False
+                    st.session_state.disable = False
                 else:
                     st.error(f"{ticker} is not valid! Check ticker spelling and value")
 
 with col3:
-     st.page_link("Pages/2_Stock Charts.py", label="Go to Stock Charts →", disabled=disable)
+     st.page_link("Pages/2_Stock Charts.py", label="Go to Stock Charts →", disabled=st.session_state.disable)
 
