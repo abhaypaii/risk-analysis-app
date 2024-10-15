@@ -8,13 +8,14 @@ This is a Streamlit web application that allows users to input their portfolio a
 [risk-analysis-app.streamlit.app](risk-analysis-app.streamlit.app)
 
 
-## Table of Contents
+# Table of Contents
 
-    1. Input page
-    2. Stock Dashboard
-    3. Risk Analysis
-    4. Portfolio Optimisation
-## Input Page
+1. Input page
+2. Stock Dashboard
+3. Risk Analysis
+4. Portfolio Optimisation
+   
+# Input Page
 
 ![Input Page](https://github.com/abhaypaii/risk-analysis-app/blob/main/img/Input%20Page.png?raw=true)
 
@@ -24,7 +25,7 @@ I have added a feature where the user can add a new stock or delete any stock as
 
 I have also added a button for data validation. If the data is not valid, the button to go to the next page will not be enabled.
 
-## Stock Dashboard
+# Stock Dashboard
 
 ![Dashboard](https://github.com/abhaypaii/risk-analysis-app/blob/main/img/Dashboard.png?raw=true)
 
@@ -34,7 +35,7 @@ The user can choose what stock they want to analyse and what frequency of return
 
 All of this was made using the yfinance library, and plotted using streamlit's plotly integration
 
-## Risk Analysis
+# Risk Analysis
 
 ![Risk Analysis](https://github.com/abhaypaii/risk-analysis-app/blob/main/img/Risk%20Analysis.png?raw=true)
 
@@ -45,7 +46,7 @@ The page also summarize the total value of the portfolio along with the annualis
 The page then has 4 tabs, each displaying one aspect of quantitative metrics of the portfolio, with a description of what it implies about the risk-return tradeoff of the portfolio.
 
 
-## Optimal Allocation
+# Optimal Allocation
 
 ![Risk Analysis](https://github.com/abhaypaii/risk-analysis-app/blob/main/img/Optimisation.png?raw=true)
 
@@ -54,7 +55,7 @@ The final page displays the best options for the portfolio allocation based on h
 Each tab displays the hypotehtical portfolios with the most returns, least risk, and the best overall risk-return tradeoff.
 
 Each tab also has suggestions to the investor and the implication of how the value of each stock shoudl be customized to achieve the said risk and return.
-## Authors
+# Authors
 
 - [@abhaypaii](https://www.github.com/abhaypaii)
 
