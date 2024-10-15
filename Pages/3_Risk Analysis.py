@@ -6,7 +6,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 from scipy.stats import norm
 
-#To prevent access from sidebar before inputting values
 if st.session_state.disable:
     st.info('Please enter your input on the Home page and try again.')
     st.stop()
@@ -74,13 +73,17 @@ fig2.update_layout(legend=dict(orientation="h", yanchor="bottom",y=-0.7,xanchor=
 
 
 # ----- METRICS
-col1, col2 = st.columns([1.5,1.5], vertical_alignment='center')
+col1, col2, col3 = st.columns(3, vertical_alignment='center')
 with col1:
       st.metric("Total Portfolio Value", value = "$" + str(sum(values)))
-      st.plotly_chart(fig1)
 with col2:
+      st.metric("Annualised Returns", value = str(round(portfolio_returns*100, 2)) + "%")
+with col3:
      st.metric("Annualised Volatility", value = str(round(portfolio_sd*100, 2)) + "%")
-     st.plotly_chart(fig2)
+
+col1, col2, col3 = st.columns([1, 0.2, 1], vertical_alignment='center')
+col1.plotly_chart(fig1)
+col3.plotly_chart(fig2)
 
 metrics = ['Sharpe Ratio', "Sortino Ratio", "Maximum Drawdown", "Value-at-Risk"]
 tab1, tab2, tab3, tab4 = st.tabs(metrics)
