@@ -34,12 +34,10 @@ def remove_stock(index):
 def is_valid(ticker, value):
     try:
         stock = yf.Ticker(ticker)
-        info = stock.info
-        if "symbol" in info and info["symbol"] == ticker and value > 0:
-            return True
-        else:
-            return False
-    except Exception as e:
+        hist = stock.history(period="1d")
+        # If there's historical data and value > 0, it's likely a valid ticker
+        return not hist.empty and value > 0
+    except Exception:
         return False
     
 # Create columns for buttons
