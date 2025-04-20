@@ -33,9 +33,14 @@ def remove_stock(index):
 #----- To validate tickers
 def is_valid(ticker, value):
     try:
-        stock = yf.Ticker(ticker)
-        hist = stock.history(period="1d")
-        # If there's historical data and value > 0, it's likely a valid ticker
+        stock = yf.Ticker(ticker.upper())  # Ensure uppercase
+        # Try fast_info first (much faster than .info)
+        if hasattr(stock, "fast_info") and stock.fast_info is not None:
+            price = stock.fast_info.get("last_price", None)
+            return price is not None and price > 0 and value > 0
+
+        # Fallback to price history check
+        hist = stock.history(period="5d", interval="1d")
         return not hist.empty and value > 0
     except Exception:
         return False
