@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import yfinance as yf
-
+import time
 c1, c2= st.columns([3,1], vertical_alignment="bottom")
 with c1:
     st.title("Stock Portfolio Risk Evaluation")
@@ -32,18 +32,13 @@ def remove_stock(index):
 
 #----- To validate tickers
 def is_valid(ticker, value):
-    try:
-        stock = yf.Ticker(ticker.upper())  # Ensure uppercase
-        # Try fast_info first (much faster than .info)
-        if hasattr(stock, "fast_info") and stock.fast_info is not None:
-            price = stock.fast_info.get("last_price", None)
-            return price is not None and price > 0 and value > 0
-
-        # Fallback to price history check
-        hist = stock.history(period="5d", interval="1d")
-        return not hist.empty and value > 0
-    except Exception:
+    ticker = ticker.upper()
+    data = yf.Ticker(ticker).history(period="1d")
+    if not data.empty and value > 0:
+        return True
+    else:
         return False
+
     
 # Create columns for buttons
 for index, _ in st.session_state.portfolio.iterrows():
@@ -95,7 +90,7 @@ with col2:
                     st.success(f"{ticker} is valid")
                     st.session_state.disable = False
                 else:
-                    st.error(f"{ticker} is not valid! Check ticker spelling and value")
+                    st.error("Invalid Value or Ticker")
 
 with col3:
      st.page_link("Pages/2_Stock Charts.py", label="Go to Stock Charts →", disabled=st.session_state.disable)
