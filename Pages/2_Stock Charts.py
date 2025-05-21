@@ -5,7 +5,6 @@ import pandas as pd
 from datetime import date
 import plotly.graph_objects as go
 
-#To prevent access from sidebar before inputting values
 if st.session_state.disable:
     st.info('Please enter your input on the Home page and try again.')
     st.stop()
@@ -25,7 +24,7 @@ weights = list(weights_dict.values())
 st.session_state.portfolio = portfolio
 
 stocks = yf.download(tickers=list(tickers), period='5y')
-stocks=stocks['Adj Close']
+stocks=stocks['Close']
 today = stocks.index[-1]
 yday = stocks.index[-2]
 returns= stocks.pct_change().dropna()
@@ -114,8 +113,8 @@ with col2:
     st.subheader(t+" News")
     topnews = yf.Ticker(t).news[0:3]
     for i, article in enumerate(topnews):
-        title = article['title']
-        link = article['link']
+        title = article['content']['title']
+        link = article['content']['clickThroughUrl']['url']
         markdown_news = f"[{title}]({link})"
         st.markdown("  "+markdown_news)
      
